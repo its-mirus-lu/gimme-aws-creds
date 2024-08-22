@@ -420,25 +420,29 @@ class GimmeAWSCreds(object):
         for _ in range(max_retries):
             selections = set()
             error = False
+            input_values = self.ui.input('Selections (comma separated; "A" for all profiles): ').split(',')
 
-            for value in self.ui.input('Selections (comma separated): ').split(','):
-                value = value.strip()
+            if 'a' in input_values or 'A' in input_values:
+                selections = set(range(min_int, max_int))
+            else:
+                for value in input_values:
+                    value = value.strip()
 
-                if not value:
-                    continue
+                    if not value:
+                        continue
 
-                try:
-                    selection = int(value)
-                except ValueError:
-                    self.ui.warning('Invalid selection {}, must be an integer value.'.format(repr(value)))
-                    error = True
-                    continue
+                    try:
+                        selection = int(value)
+                    except ValueError:
+                        self.ui.warning('Invalid selection {}, must be an integer value.'.format(repr(value)))
+                        error = True
+                        continue
 
-                if min_int <= selection <= max_int:
-                    selections.add(value)
-                else:
-                    self.ui.warning(
-                        'Selection {} out of range <{}, {}>'.format(repr(selection), min_int, max_int))
+                    if min_int <= selection <= max_int:
+                        selections.add(value)
+                    else:
+                        self.ui.warning(
+                            'Selection {} out of range <{}, {}>'.format(repr(selection), min_int, max_int))
 
             if error:
                 continue
