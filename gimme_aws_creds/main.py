@@ -449,7 +449,6 @@ class GimmeAWSCreds(object):
                 continue
 
             if selections:
-                self.ui.message('Selections: {}'.format(selections))
                 return selections
 
         return set()
