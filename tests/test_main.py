@@ -47,12 +47,26 @@ class TestMain(unittest.TestCase):
         self.assertRaises(errors.GimmeAWSCredsExitBase, creds._choose_roles, self.APP_INFO)
         self.assertRaises(errors.GimmeAWSCredsExitBase, creds._choose_app, self.AWS_INFO)
 
-    @patch('builtins.input', return_value='a')
-    def test_choose_roles_app_a(self, mock):
+    @patch('builtins.input', return_value='b')
+    def test_choose_roles_app_b(self, mock):
         creds = GimmeAWSCreds()
         self.assertRaises(errors.GimmeAWSCredsExitBase, creds._choose_roles, self.APP_INFO)
         self.assertRaises(errors.GimmeAWSCredsExitBase, creds._choose_app, self.AWS_INFO)
 
+    @patch('builtins.input', return_value='all')
+    def test_choose_roles_app_select_all(self, mock):
+        creds = GimmeAWSCreds()
+        selections = creds._choose_roles(self.APP_INFO)
+        expected_selections = {self.APP_INFO[0].role, self.APP_INFO[1].role}
+        self.assertEqual(selections, expected_selections)
+        
+    @patch('builtins.input', return_value='a')
+    def test_choose_roles_app_select_all_a(self, mock):
+        creds = GimmeAWSCreds()
+        selections = creds._choose_roles(self.APP_INFO)
+        expected_selections = {self.APP_INFO[0].role, self.APP_INFO[1].role}
+        self.assertEqual(selections, expected_selections)
+        
     def test_get_selected_app_from_config_0(self):
         creds = GimmeAWSCreds()
 
@@ -96,10 +110,10 @@ class TestMain(unittest.TestCase):
         selections = creds._get_selected_roles(['test1', 'test2'], self.APP_INFO)
         self.assertEqual(selections, {'test1', 'test2'})
 
-    def test_get_selected_roles_all(self):
+    def test_get_selected_roles_a(self):
         creds = GimmeAWSCreds()
 
-        selections = creds._get_selected_roles('all', self.APP_INFO)
+        selections = creds._get_selected_roles('a', self.APP_INFO)
         self.assertEqual(selections, {'test1', 'test2'})
 
     @patch('builtins.input', return_value='0')
