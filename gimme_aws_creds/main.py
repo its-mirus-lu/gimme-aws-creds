@@ -423,7 +423,7 @@ class GimmeAWSCreds(object):
             input_values = self.ui.input('Selections (comma separated; specify "A" for all profiles): ').lower().split(',')
 
             if 'a' in input_values or 'all' in input_values:
-                selections = set(range(min_int, max_int))
+                selections = set(range(min_int, max_int+1))
                 self.ui.message("Generating credentials for profile indices {} to {} ".format(min_int, max_int))
             else:
                 for value in input_values:
@@ -449,6 +449,7 @@ class GimmeAWSCreds(object):
                 continue
 
             if selections:
+                self.ui.message('Selections: {}'.format(selections))
                 return selections
 
         return set()
