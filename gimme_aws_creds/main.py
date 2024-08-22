@@ -420,7 +420,7 @@ class GimmeAWSCreds(object):
         for _ in range(max_retries):
             selections = set()
             error = False
-            input_values = self.ui.input('Selections (comma separated; "[A]" for all profiles): ').lower().split(',')
+            input_values = self.ui.input('Selections (comma separated; specify "A" for all profiles): ').lower().split(',')
 
             if 'a' in input_values or 'all' in input_values:
                 selections = set(range(min_int, max_int))
