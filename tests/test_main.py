@@ -110,10 +110,10 @@ class TestMain(unittest.TestCase):
         selections = creds._get_selected_roles(['test1', 'test2'], self.APP_INFO)
         self.assertEqual(selections, {'test1', 'test2'})
 
-    def test_get_selected_roles_a(self):
+    def test_get_selected_roles_all(self):
         creds = GimmeAWSCreds()
 
-        selections = creds._get_selected_roles('a', self.APP_INFO)
+        selections = creds._get_selected_roles('all', self.APP_INFO)
         self.assertEqual(selections, {'test1', 'test2'})
 
     @patch('builtins.input', return_value='0')
